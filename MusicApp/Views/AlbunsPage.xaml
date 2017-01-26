@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+		         xmlns:c="clr-namespace:MusicApp;assembly=MusicApp"
+		         xmlns:inf="clr-namespace:XamarinUniversity.Infrastructure;assembly=XamU.Infrastructure"
+		         xmlns:converters="clr-namespace:MusicApp;assembly=MusicApp"
+		         x:Class="MusicApp.AlbumsPage"
+             Title="Music App"
+		x:Name="ThisPage">
+
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <converters:ItemTappedEventArgsConverter x:Key="ItemTappedConverter" />
+    </ResourceDictionary>
+  </ContentPage.Resources>
+
+  <ContentPage.ToolbarItems>
+    <ToolbarItem Order="Primary"
+                 Priority="0"
+                 Command="{Binding NewCommand}">
+      <ToolbarItem.Icon>
+        <OnPlatform x:TypeArguments="FileImageSource"
+                    iOS="Plus.png"
+                    Android="ic_add_circle_outline_white.png"
+                    WinPhone="Images/edit.png" />
+      </ToolbarItem.Icon>
+    </ToolbarItem>
+  </ContentPage.ToolbarItems>
+
+  <ContentPage.Padding>
+    <OnPlatform x:TypeArguments="Thickness">
+      <OnPlatform.Android>8</OnPlatform.Android>
+      <OnPlatform.iOS>8</OnPlatform.iOS>
+      <OnPlatform.WinPhone>8</OnPlatform.WinPhone>
+    </OnPlatform>
+
+  </ContentPage.Padding>
+
+  <ListView x:Name="ThisList" ItemsSource="{Binding Albums}" RowHeight="48">
+
+    <ListView.Behaviors>
+      <inf:EventToCommandBehavior
+         EventName = "ItemTapped" Command="{Binding TappedCommand}"
+         EventArgsConverter="{StaticResource ItemTappedConverter}"/>
+    </ListView.Behaviors>
+
+    <ListView.ItemTemplate>
+      <DataTemplate>
+        <ViewCell x:Name="ThisCell">
+          <ViewCell.ContextActions>
+
+						<!--<MenuItem Text="Delete" IsDestructive="true" Command="{Binding DeleteCommand}" CommandParameter="{Binding .}"/>-->
+
+						<MenuItem Text="Delete" IsDestructive="true" Command="{Binding DeleteCommand}" CommandParameter="{Binding Source={x:Reference ThisCell}, Path=BindingContext}"
+                              BindingContext="{Binding Source={x:Reference ThisPage}, Path=BindingContext}"/>
+          </ViewCell.ContextActions>
+
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*"/>
+              <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0" Margin="8, 0, 0, 0" Grid.ColumnSpan="2" Text="{Binding Name}" FontSize="20"/>
+            <Label Grid.Column="0" Margin="8, 0, 0, 0" Text="{Binding Artist}" FontSize="16" VerticalOptions="End"/>
+            <Label Grid.Column="1" Margin="0, 0, 8, 0" Text="{Binding Year}" FontSize="16" VerticalOptions="End"/>
+          </Grid>
+
+        </ViewCell>
+      </DataTemplate>
+    </ListView.ItemTemplate>
+  </ListView>
+
+</ContentPage>

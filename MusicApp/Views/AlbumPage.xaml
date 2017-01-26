@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="MusicApp.AlbumPage"
+	Title="{Binding Name}">
+
+	<StackLayout Padding="16">
+		<Label Text="Artist" />
+		<Entry Text="{Binding Artist}" />
+		<Label Text="Year" />
+		<Entry Text="{Binding Year}" />
+		<ListView ItemsSource="{Binding Songs}">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<Grid>
+							<Label Margin="8, 0, 0, 0" 
+								Text="{Binding Name}"
+								FontSize="16"
+								HorizontalTextAlignment="Start"
+							    HorizontalOptions="FillAndExpand" />
+							<Label Margin="0, 0, 8, 0"
+							       Text="{Binding Duration}"
+							       FontSize="16"
+							       HorizontalTextAlignment="End"
+							       HorizontalOptions="FillAndExpand" />
+						</Grid>
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+	</StackLayout>
+</ContentPage>
